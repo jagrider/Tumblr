@@ -12,9 +12,7 @@ import AlamofireImage
 class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
   var posts: [[String: Any]] = []
-  
   @IBOutlet weak var tableView: UITableView!
-  
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return posts.count
@@ -28,15 +26,16 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     if let photos = post["photos"] as? [[String: Any]] {
       // photos is NOT nil, we can use it!
       
+      // Get the photo & attributes
       let photo = photos[0]
       let originalSize = photo["original_size"] as! [String: Any]
       let urlString = originalSize["url"] as! String
       let url = URL(string: urlString)
       
+      // Set the cell's image to the photo we retrieved
       cell.tumblrImageView.af_setImage(withURL: url!)
       
     }
-    
     return cell
   }
   
@@ -49,7 +48,6 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     tableView.insertSubview(refreshControl, at: 0)
     tableView.dataSource = self
     getPictures()
-    
   }
   
   override func didReceiveMemoryWarning() {
@@ -67,7 +65,9 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         print(error.localizedDescription)
       } else if let data = data,
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-        print(dataDictionary)
+        
+        // Debug --> Prints the JSON dictionary
+        // print(dataDictionary)
         
         // Get the dictionary from the response key
         let responseDictionary = dataDictionary["response"] as! [String: Any]
@@ -79,14 +79,15 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.reloadData()
         
       }
+      
     }
     
     task.resume()
+    
   }
   
   // Actually refresh images
   @objc func didRefresh(_ refreshControl: UIRefreshControl) {
-    print("I refreshed!")
     getPictures()
     refreshControl.endRefreshing()
   }
