@@ -2,7 +2,7 @@
 
 **Tumblr** is a photo browsing app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **X** hours spent in total
+Time spent: **3** hours spent in total
 
 ## User Stories
 
@@ -19,12 +19,13 @@ The following **optional** user stories are implemented:
 
 The following **additional** user stories are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality! (+1-3pts)
+- [x] Auto-layout support for iPhone 6 and newer.
+- [x] User can pull to refresh for new images.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Having a detail screen for each image upon tapping it in the list
+2. Adding the ability to go to the profile of image posters 
 
 ## Video Walkthrough
 
