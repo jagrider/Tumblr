@@ -12,6 +12,7 @@ import AlamofireImage
 class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
   var posts: [[String: Any]] = []
+  var alertController: UIAlertController!
   @IBOutlet weak var tableView: UITableView!
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,6 +43,15 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    
+    // Set up alert controller
+    self.alertController = UIAlertController(title: "Cannot get Movies", message: "The Internet connection appears to be offline.", preferredStyle: .alert)
+    // create an OK action
+    let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+      self.getPictures()
+    }
+    self.alertController.addAction(OKAction)
+    
     // Set up refresh pull
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector (PhotosViewController.didRefresh(_:)), for: .valueChanged)
@@ -63,6 +73,10 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     let task = session.dataTask(with: url) { (data, response, error) in
       if let error = error {
         print(error.localizedDescription)
+        
+        // Show error
+        self.present(self.alertController, animated: true) { }
+        
       } else if let data = data,
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
         
