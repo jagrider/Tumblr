@@ -45,7 +45,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     // Set up alert controller
-    self.alertController = UIAlertController(title: "Cannot get Movies", message: "The Internet connection appears to be offline.", preferredStyle: .alert)
+    self.alertController = UIAlertController(title: "Cannot get Photos", message: "The Internet connection appears to be offline.", preferredStyle: .alert)
     // create an OK action
     let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
       self.getPictures()
@@ -93,11 +93,20 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.reloadData()
         
       }
-      
     }
-    
     task.resume()
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let cell = sender as! PictureCell
+    let destination = segue.destination as! PhotoDetailsViewController
+    destination.image = cell.tumblrImageView.image
     
+  }
+  
+  // Remove gray selection effect
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
   }
   
   // Actually refresh images
