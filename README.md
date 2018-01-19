@@ -60,7 +60,7 @@ Describe any challenges encountered while building the app.
 
 **Tumblr** is a photo browsing app app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **5** hours spent in total
+Time spent: **7** hours spent in total
 
 ## User Stories
 
@@ -70,7 +70,7 @@ The following **required** user stories are complete:
 
 The following **optional** user stories are implemented:
 
-- [ ] Add Avatar and Publish Dates (+2pt)
+- [x] Add Avatar and Publish Dates (+2pt)
 - [ ] Zoomable Photo View (+2pt)
 - [ ] Infinite Scrolling (+2pt)
 

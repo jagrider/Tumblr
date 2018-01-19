@@ -9,20 +9,22 @@
 import UIKit
 import AlamofireImage
 
-class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+
+  @IBOutlet weak var tableView: UITableView!
   
   var posts: [[String: Any]] = []
   var alertController: UIAlertController!
-  @IBOutlet weak var tableView: UITableView!
+  var isMoreDataLoading = false
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return posts.count
+    return 1
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "PictureCell", for: indexPath) as! PictureCell
     
-    let post = posts[indexPath.row]
+    let post = posts[indexPath.section]
     
     if let photos = post["photos"] as? [[String: Any]] {
       // photos is NOT nil, we can use it!
@@ -40,13 +42,57 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     return cell
   }
   
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return posts.count
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+    headerView.backgroundColor = UIColor(white: 1, alpha: 0.9)
+    
+    let profileView = UIImageView(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
+    profileView.clipsToBounds = true
+    profileView.layer.cornerRadius = 15;
+    profileView.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).cgColor
+    profileView.layer.borderWidth = 1;
+    
+    // Set the avatar
+    profileView.af_setImage(withURL: URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/avatar")!)
+    headerView.addSubview(profileView)
+    
+    // Set up the date label
+    let photo = posts[section]
+    if let timestamp = photo["timestamp"] {
+      
+      // Set up the date text
+      let dateUnformatted = NSDate(timeIntervalSince1970: timestamp as! TimeInterval)
+      let formatter = DateFormatter()
+      formatter.dateFormat = "MMM dd, YYYY, hh:mm a"
+      let dateFormatted = formatter.string(from: dateUnformatted as Date)
+      
+      // Set the label
+      let label = UILabel(frame: CGRect(x: 50, y: 10, width: 200, height: 30))
+      label.clipsToBounds = true
+      label.layer.cornerRadius = 15;
+      label.text = "\(dateFormatted)"
+      
+      headerView.addSubview(label)
+    }
+    
+    return headerView
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 50
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     
     // Set up alert controller
     self.alertController = UIAlertController(title: "Cannot get Photos", message: "The Internet connection appears to be offline.", preferredStyle: .alert)
-    // create an OK action
+    // create an OK action & add it
     let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
       self.getPictures()
     }
@@ -57,6 +103,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     refreshControl.addTarget(self, action: #selector (PhotosViewController.didRefresh(_:)), for: .valueChanged)
     tableView.insertSubview(refreshControl, at: 0)
     tableView.dataSource = self
+    tableView.delegate = self
     getPictures()
   }
   
@@ -97,11 +144,16 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     task.resume()
   }
   
+  // Set up segue on image tap
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! PictureCell
     let destination = segue.destination as! PhotoDetailsViewController
-    destination.image = cell.tumblrImageView.image
     
+    if let section = tableView.indexPath(for: cell)?.section {
+      let post = posts[section]
+    }
+
+    destination.image = cell.tumblrImageView.image
   }
   
   // Remove gray selection effect
@@ -114,5 +166,9 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     getPictures()
     refreshControl.endRefreshing()
   }
+  
+
+  
+  
   
 }

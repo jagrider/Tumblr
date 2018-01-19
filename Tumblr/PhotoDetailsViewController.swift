@@ -13,11 +13,13 @@ class PhotoDetailsViewController: UIViewController {
   @IBOutlet weak var postImageView: UIImageView!
   
   var image: UIImage?
+  var postDescription: String?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.postImageView.image = self.image
+    //self.postLabel.text = self.postDescription
     
   }
   
