@@ -16,6 +16,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   var posts: [[String: Any]] = []
   var alertController: UIAlertController!
   var isMoreDataLoading = false
+  var refreshControl: UIRefreshControl!
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 1
@@ -99,7 +100,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     self.alertController.addAction(OKAction)
     
     // Set up refresh pull
-    let refreshControl = UIRefreshControl()
+    self.refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector (PhotosViewController.didRefresh(_:)), for: .valueChanged)
     tableView.insertSubview(refreshControl, at: 0)
     tableView.dataSource = self
@@ -139,20 +140,39 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         // Reload the table view
         self.tableView.reloadData()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+          // Stop the refresh controller
+          self.refreshControl.endRefreshing()
+        }
+        
       }
     }
     task.resume()
   }
   
-  // Set up segue on image tap
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    let cell = sender as! PictureCell
     let destination = segue.destination as! PhotoDetailsViewController
+    let cell = sender as! PictureCell
+    let indexPath = tableView.indexPath(for: cell)!
+    let post = posts[indexPath.section]
     
-    if let section = tableView.indexPath(for: cell)?.section {
-      let post = posts[section]
-    }
-
+    // Get raw post caption
+    let rawCaption = post["caption"] as! String
+    
+    // Remove HTML tags
+    let removeTags = rawCaption.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+    
+    // Replace Tumblr's left double quote tags
+    let leftDoubleQuotes = removeTags.replacingOccurrences(of: "&ldquo;", with: "\"", options: .regularExpression, range: nil)
+    
+    // Replace Tumblr's left double quote tags
+    let rightDoubleQuotes = leftDoubleQuotes.replacingOccurrences(of: "&rdquo;", with: "\"", options: .regularExpression, range: nil)
+    
+    // Replace Tumblr's single quote tags
+    let singleQuotes = rightDoubleQuotes.replacingOccurrences(of: "&rsquo;", with: "\'", options: .regularExpression, range: nil)
+    
+    // Send post data to destination view
+    destination.postDescription = singleQuotes
     destination.image = cell.tumblrImageView.image
   }
   
@@ -164,7 +184,6 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   // Actually refresh images
   @objc func didRefresh(_ refreshControl: UIRefreshControl) {
     getPictures()
-    refreshControl.endRefreshing()
   }
   
 

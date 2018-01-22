@@ -72,18 +72,36 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="meC-mv-Qzw">
                                 <rect key="frame" x="0.0" y="88" width="375" height="321"/>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnz-YT-wOM">
+                                <rect key="frame" x="16" y="417" width="343" height="361"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <attributes>
+                                            <font key="NSFont" metaFont="system" size="14"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="fnz-YT-wOM" firstAttribute="leading" secondItem="cEU-F9-Ode" secondAttribute="leading" constant="16" id="3nX-px-7Jl"/>
                             <constraint firstItem="meC-mv-Qzw" firstAttribute="top" secondItem="cEU-F9-Ode" secondAttribute="top" id="7lu-PJ-via"/>
                             <constraint firstItem="cEU-F9-Ode" firstAttribute="trailing" secondItem="meC-mv-Qzw" secondAttribute="trailing" id="ANq-Ka-cDY"/>
                             <constraint firstItem="cEU-F9-Ode" firstAttribute="bottom" secondItem="meC-mv-Qzw" secondAttribute="bottom" constant="369" id="SBu-iy-D4I"/>
                             <constraint firstItem="meC-mv-Qzw" firstAttribute="leading" secondItem="cEU-F9-Ode" secondAttribute="leading" id="brd-Rj-VH4"/>
+                            <constraint firstItem="cEU-F9-Ode" firstAttribute="trailing" secondItem="fnz-YT-wOM" secondAttribute="trailing" constant="16" id="sa5-IK-oa1"/>
+                            <constraint firstItem="cEU-F9-Ode" firstAttribute="bottom" secondItem="fnz-YT-wOM" secondAttribute="bottom" id="tQZ-Uj-EKx"/>
+                            <constraint firstItem="fnz-YT-wOM" firstAttribute="top" secondItem="meC-mv-Qzw" secondAttribute="bottom" constant="8" id="wDR-UL-rII"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cEU-F9-Ode"/>
                     </view>
                     <connections>
                         <outlet property="postImageView" destination="meC-mv-Qzw" id="acv-kz-yew"/>
+                        <outlet property="postText" destination="fnz-YT-wOM" id="IIa-92-1Bu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aAB-OG-Q8T" userLabel="First Responder" sceneMemberID="firstResponder"/>

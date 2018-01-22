@@ -11,15 +11,16 @@ import UIKit
 class PhotoDetailsViewController: UIViewController {
   
   @IBOutlet weak var postImageView: UIImageView!
+  @IBOutlet weak var postText: UITextView!
   
   var image: UIImage?
-  var postDescription: String?
+  var postDescription: String = ""
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.postImageView.image = self.image
-    //self.postLabel.text = self.postDescription
+    self.postText.text = self.postDescription
     
   }
   

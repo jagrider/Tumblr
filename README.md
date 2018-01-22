@@ -78,11 +78,14 @@ The following **additional** user stories are implemented:
 
 - [x] Auto-layout support for iPhone 6 and newer. (+1-3pts)
 - [x] User can pull to refresh for new images. (+1-3pts)
+- [x] User can now see the post's caption in the image detail view. (+1-3pts)
+- [x] User can scroll on post caption text to see the full caption. (+1-3pts)
+- [x] Added app icon (+1-3pts)
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Adding infinite scrolling to load older posts
+2. Adding the ability to go to a poster's profile
 
 ## Video Walkthrough
 
@@ -94,7 +97,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I had difficulties with aligning the section header containing avatar image and post date information.
 
 ## License
 
